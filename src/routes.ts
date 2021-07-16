@@ -1,9 +1,13 @@
-import { Router, Request, Response } from 'express'
+import { Router, Request, Response } from 'express';
+import { getUsers, saveUser } from './controller/UserController';
 
-const routes = Router()
+const routes = Router();
 
 routes.get('/', (req: Request, res: Response) => {
     return res.json({ message: 'Hello World!'})
-})
+});
 
-export default routes
+routes.get('/users', getUsers);
+routes.post('/users/create', saveUser);
+
+export default routes;
