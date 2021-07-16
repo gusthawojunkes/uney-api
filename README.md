@@ -1,3 +1,11 @@
-# uney
- 
-For development: npm run dev
+<h1 align="center">
+ Uney API
+</h1> 
+
+### Tecnologias:
+
+- `NodeJS v14.17.3`
+- `TypeORM 0.2.34`
+- `Express`
+- `TypeScript 3.3.3333`
+- `PostgreSQL 13`
