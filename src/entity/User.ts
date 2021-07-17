@@ -1,6 +1,6 @@
-import {Entity, Column, BeforeInsert, BeforeUpdate} from "typeorm";
-import { ColumnMetadata } from "typeorm/metadata/ColumnMetadata";
-import { AbstractEntity } from "../utils/AbstractEntity";
+import {Entity, Column, OneToOne, JoinColumn} from 'typeorm';
+import { AbstractEntity } from '../utils/AbstractEntity';
+import { Account } from './Account';
 
 @Entity()
 export class User extends AbstractEntity {
@@ -35,5 +35,9 @@ export class User extends AbstractEntity {
         nullable: true
     })
     birth: Date;
+
+    @OneToOne(() => Account)
+    @JoinColumn()
+    account: Account;
 
 };
