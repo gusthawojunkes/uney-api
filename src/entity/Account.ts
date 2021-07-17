@@ -26,4 +26,4 @@ export class Account extends AbstractEntity {
     @OneToMany(() => AccountHistory, history => history.account)
     history: AccountHistory[];
 
-}
+};

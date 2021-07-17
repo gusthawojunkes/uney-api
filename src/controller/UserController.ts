@@ -1,13 +1,15 @@
 import { getRepository } from 'typeorm';
 import { User } from '../entity/User';
+import { Account } from '../entity/Account';
 import { Request, Response } from 'express';
 
 export const saveUser = async (request: Request, response: Response) => {
-    const user = await getRepository(User).save(request.body);
-    return response.json(user);
+    const user = getNewUserFromBody(request.body);
+    const newUser = await getRepository(User).save(user);
+    return response.json(newUser);
 };
 
-export const getUsers = async (request: Request, response: Response) => {
+export const getUsers = async (_request: Request, response: Response) => {
     const users = await getRepository(User).find();
     return response.json(users);
 };
@@ -31,8 +33,13 @@ export const deleteUser = async (request: Request, response: Response) => {
     return response.status(404).json({ message: 'User not found' });
 };
 
-export const getUserById = async (request: Request, response: Response) => {
-    const { id } = request.params;
-    const user = await getRepository(User).findOne(id);
-    return response.json(user);
+const getNewUserFromBody = (body: any): User => {
+    const user = new User();
+    user.name = body.name;
+    user.email = body.email;
+    user.username = body.username;
+    user.password = body.password;
+    user.birth = body.birth;
+    user.account = new Account();
+    return user;
 };

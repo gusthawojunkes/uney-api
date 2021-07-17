@@ -36,7 +36,10 @@ export class User extends AbstractEntity {
     })
     birth: Date;
 
-    @OneToOne(() => Account)
+    @OneToOne(
+        () => Account, 
+        { cascade: ["insert"] }
+    )
     @JoinColumn()
     account: Account;
 

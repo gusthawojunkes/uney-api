@@ -2,6 +2,8 @@ import { Entity, Column, ManyToOne } from "typeorm";
 import { AbstractEntity } from "../utils/AbstractEntity";
 import { Account } from "./Account";
 
+export type TransactionType = 'debit' | 'credit';
+
 @Entity()
 export class AccountHistory extends AbstractEntity {
 
@@ -17,6 +19,12 @@ export class AccountHistory extends AbstractEntity {
     })
     description: string;
 
+    @Column({
+        type: 'enum',
+        enum: ['debit', 'credit']
+    })
+    operation: TransactionType;
+
     @ManyToOne(() => Account, account => account.history)
     account: Account;
-}
+};
