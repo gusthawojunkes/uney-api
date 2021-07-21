@@ -5,8 +5,9 @@ import { Request, Response } from 'express';
 
 export const login = async (request: Request, response: Response) => {
     const login = request.body;
-    console.log(`AUTHENTICATE >>> [${login.username} - ${login.password}]`)
-    const user = await getRepository(User).find({where: { username: login.username }})[0]
+    const username = login.username;
+    console.log(`AUTHENTICATE >>> [${username} - ${login.password}]`)
+    const user = await getRepository(User).find({where: { username: username }})[0]
     const authenticated = authenticate(login, user);
     if (authenticated) return response.json(user);
     return response.status(401);
@@ -54,6 +55,6 @@ const getNewUserFromBody = (body: any): User => {
 };
 
 const authenticate = (login: any, user: User) => {
-    if (login.username === undefined || login.password === undefined) return false;
+    if (user === undefined || login.username === undefined || login.password === undefined) return false;
     return login.password === user.password;
 };
