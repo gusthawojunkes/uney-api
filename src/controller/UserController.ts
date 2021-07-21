@@ -3,6 +3,14 @@ import { User } from '../entity/User';
 import { Account } from '../entity/Account';
 import { Request, Response } from 'express';
 
+export const login = async (request: Request, response: Response) => {
+    const login = request.body;
+    const user = await getRepository(User).find({where: { username: login.username }})[0]
+    const authenticated = authenticate(login, user);
+    if (authenticated) return response.json(user);
+    return response.status(401);
+};
+
 export const saveUser = async (request: Request, response: Response) => {
     const user = getNewUserFromBody(request.body);
     const newUser = await getRepository(User).save(user);
@@ -42,4 +50,8 @@ const getNewUserFromBody = (body: any): User => {
     user.birth = body.birth;
     user.account = new Account();
     return user;
+};
+
+const authenticate = (login: any, user: User) => {
+    return login.password == user.password;
 };

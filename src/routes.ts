@@ -1,14 +1,12 @@
-import { Router, Request, Response } from 'express';
-import { saveUser, getUsers, updateUsers, deleteUser } from './controller/UserController';
+import { Router } from 'express';
+import { saveUser, getUsers, updateUsers, deleteUser, login } from './controller/UserController';
 import { saveHistoric, getHistoric, updateHistoric, deleteHistoric } from './controller/AccountHistoryController';
 
 const routes = Router();
 const USERS = '/users';
 const HISTORIC = '/historic';
 
-routes.get('/', (req: Request, res: Response) => {
-    return res.json({ message: 'Hello World!'})
-});
+routes.post('/login', login);
 
 routes.post(USERS, saveUser);
 routes.get(USERS, getUsers);
