@@ -5,7 +5,7 @@ import { Request, Response } from 'express';
 
 export const login = async (request: Request, response: Response) => {
     const login = request.body;
-    const username = login.username;
+    const username: string = login.username;
     console.log(`AUTHENTICATE >>> [${username} - ${login.password}]`)
     const user = await getRepository(User).find({where: { username: username }})[0]
     const authenticated = authenticate(login, user);
