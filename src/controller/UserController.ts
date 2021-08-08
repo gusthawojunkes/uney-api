@@ -7,9 +7,10 @@ export const login = async (request: Request, response: Response) => {
     const login = request.body;
     const username: string = login.username;
     console.log(`AUTHENTICATE >>> [${username} - ${login.password}]`)
-    const user = await getRepository(User).find({where: { username: username }})[0]
-    const authenticated = authenticate(login, user);
-    if (authenticated) return response.json(user);
+    const users = await getRepository(User).find({ where: { username: username }})
+    const firstUser = users[0];
+    const authenticated = authenticate(login, firstUser);
+    if (authenticated) return response.json(firstUser);
     return response.status(401);
 };
 
