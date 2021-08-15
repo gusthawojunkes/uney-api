@@ -16,7 +16,11 @@ export const login = async (request: Request, response: Response) => {
 
 export const saveUser = async (request: Request, response: Response) => {
     const user = getNewUserFromBody(request.body);
-    const newUser = await getRepository(User).save(user);
+    let newUser;
+    await getRepository(User).save(user)
+    .then(u => newUser = u)
+    .catch(err => { return response.json(err.message) })
+
     return response.json(newUser);
 };
 

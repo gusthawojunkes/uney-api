@@ -5,5 +5,5 @@ import { Request, Response } from 'express';
 export const getBalance = async (request: Request, response: Response) => {
     const { id } = request.params;
     const account = await getRepository(Account).findOne(id);
-    return account.balance;
+    return response.json(account.balance);
 };

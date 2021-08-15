@@ -5,20 +5,26 @@ import { Request, Response } from 'express';
 import { TransactionType } from '../entity/AccountHistory';
 
 export const saveHistoric = async (request: Request, response: Response) => {
-    const account = await getRepository(Account).findOne(request.params);
-    const newHistoric = getNewHistoricFromBody(request.body, account);
+    const accId: number = request.body.accountId;
+    const account: Account = await getRepository(Account).findOne(accId);
+    const newHistoric: AccountHistory = getNewHistoricFromBody(request.body, account);
 
-    const value = newHistoric.value;
-    const operation = newHistoric.operation;
+    const value: number = newHistoric.value;
+    const operation: TransactionType = newHistoric.operation;
 
-    updateBalance(account, value, operation);
+    updateBalance(account, value, operation)
+    .then(() => {
+        getRepository(AccountHistory).save(newHistoric)
+        .then(historic => { 
+            return response.json(historic);
+        })
+    })
+    .catch(err => { return response.status(500).send({ error: err.message }); });
     
-    const historic = await getRepository(AccountHistory).save(newHistoric);
-    return response.json(historic);
 };
 
 export const getHistoric = async (_request: Request, response: Response) => {
-    const historic = await getRepository(AccountHistory).find();
+    const historic: AccountHistory[] = await getRepository(AccountHistory).find();
     return response.json(historic);
 };
 
@@ -50,7 +56,7 @@ const getNewHistoricFromBody = (body: any, acc: Account): AccountHistory => {
     return historic;
 };
 
-const updateBalance = (account: Account, value: number, type: TransactionType) => {
+const updateBalance = async (account: Account, value: number, type: TransactionType) => {
     if (type === 'credit') {
         account.balance += value;
         account.total_input += value;
@@ -58,5 +64,5 @@ const updateBalance = (account: Account, value: number, type: TransactionType) =
         account.balance -= value;
         account.total_output += value;
     }
-    getRepository(Account).update(account.id, account);
+    return await getRepository(Account).update(account.id, account);
 };

@@ -15,7 +15,7 @@ export class AccountHistory extends AbstractEntity {
 
     @Column({
         type: 'varchar',
-        nullable: true
+        nullable: false
     })
     description: string;
 
