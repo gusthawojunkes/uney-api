@@ -1,4 +1,4 @@
-import { getRepository } from 'typeorm';
+import { DeleteResult, getRepository, UpdateResult } from 'typeorm';
 import { AccountHistory } from '../entity/AccountHistory';
 import { Account } from '../entity/Account';
 import { Request, Response } from 'express';
@@ -24,13 +24,13 @@ export const saveHistoric = async (request: Request, response: Response) => {
 };
 
 export const getHistoric = async (_request: Request, response: Response) => {
-    const historic: AccountHistory[] = await getRepository(AccountHistory).find();
+    const historic: Array<AccountHistory> = await getRepository(AccountHistory).find();
     return response.json(historic);
 };
 
 export const updateHistoric = async (request: Request, response: Response) => {
     const { id } = request.params;
-    const historic = await getRepository(AccountHistory).update(id, request.body);
+    const historic: UpdateResult = await getRepository(AccountHistory).update(id, request.body);
     if (historic.affected === 1) {
         const updated = await getRepository(AccountHistory).findOne(id);
         return response.json(updated);
@@ -40,7 +40,7 @@ export const updateHistoric = async (request: Request, response: Response) => {
 
 export const deleteHistoric = async (request: Request, response: Response) => {
     const { id } = request.params;
-    const historic = await getRepository(AccountHistory).delete(id);
+    const historic: DeleteResult = await getRepository(AccountHistory).delete(id);
     if (historic.affected === 1) {
         return response.json({ message: `Register ${id} removed from database` });
     }
