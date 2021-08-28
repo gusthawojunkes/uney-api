@@ -25,6 +25,12 @@ export class AccountHistory extends AbstractEntity {
     })
     operation: TransactionType;
 
+    @Column({
+        type: "boolean",
+        default: false
+    })
+    favorite: boolean;
+
     @ManyToOne(() => Account, account => account.history)
     account: Account;
 };

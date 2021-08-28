@@ -24,7 +24,11 @@ export const saveHistoric = async (request: Request, response: Response) => {
 };
 
 export const getHistoric = async (_request: Request, response: Response) => {
-    const historic: Array<AccountHistory> = await getRepository(AccountHistory).find();
+    const historic: Array<AccountHistory> = await getRepository(AccountHistory).find({
+        order: {
+            created_at: 'DESC'
+        }
+    });
     return response.json(historic);
 };
 
@@ -46,6 +50,16 @@ export const deleteHistoric = async (request: Request, response: Response) => {
     }
     return response.status(404).json({ message: 'Register not found' });
 };
+
+export const markAsFavorite = async (request: Request, response: Response) => {
+    const { id } = request.params;
+    const historic: UpdateResult = await getRepository(AccountHistory).update(id, request.body);
+    if (historic.affected === 1) {
+        const historic: AccountHistory = await getRepository(AccountHistory).findOne(id);
+        return response.json(historic);
+    }
+    return response.status(404).json({ message: 'Register not found' });
+}
 
 const getNewHistoricFromBody = (body: any, acc: Account): AccountHistory => {
     const historic = new AccountHistory();

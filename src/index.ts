@@ -6,7 +6,7 @@ import routes from './routes';
 import * as cors from 'cors';
 
 const options: cors.CorsOptions = {
-    methods: 'GET,POST,PUT,DELETE',
+    methods: 'GET,POST,PUT,DELETE,PATCH',
     origin: 'http://localhost:3000'
 };
 
