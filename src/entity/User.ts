@@ -1,49 +1,44 @@
-import {Entity, Column, OneToOne, JoinColumn, Unique} from 'typeorm';
+import { Entity, Column, OneToOne, JoinColumn, Unique } from 'typeorm';
 import { AbstractEntity } from '../utils/AbstractEntity';
 import { Account } from './Account';
 
 @Entity()
-@Unique("UK", ["username", "password"])
+@Unique('UK', ['username', 'password'])
 export class User extends AbstractEntity {
-
     @Column({
         type: 'varchar',
-        length: 80
+        length: 80,
     })
     name: string;
 
     @Column({
         type: 'varchar',
         length: 150,
-        nullable: true
+        nullable: true,
     })
     email: string;
 
     @Column({
         name: 'username',
         type: 'varchar',
-        length: 150
+        length: 150,
     })
     username: string;
 
     @Column({
         name: 'password',
         type: 'varchar',
-        length: 150
+        length: 150,
     })
     password: string;
 
     @Column({
         type: 'date',
-        nullable: true
+        nullable: true,
     })
     birth: Date;
 
-    @OneToOne(
-        () => Account, 
-        { cascade: ["insert"] }
-    )
+    @OneToOne(() => Account, (account) => account.user, { cascade: ['insert'] })
     @JoinColumn()
     account: Account;
-
-};
+}

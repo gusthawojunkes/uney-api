@@ -2,17 +2,25 @@ import { DeleteResult, getRepository, UpdateResult } from 'typeorm';
 import { User } from '../entity/User';
 import { Account } from '../entity/Account';
 import { Request, Response } from 'express';
+import { UserModel } from '../model/UserModel';
+
+const userModel: UserModel = new UserModel();
 
 export const login = async (request: Request, response: Response) => {
     const login = request.body;
     const username: string = login.username;
-    console.log(`AUTHENTICATE >>> [${username} - ${login.password}]`);
+    console.log(
+        `${new Date().toLocaleDateString()} - AUTHENTICATE >>> [${username} - ${
+            login.password
+        }]`
+    );
     const users: Array<User> = await getRepository(User).find({
-        where: { username: username },
+        where: { username: username, password: login.password },
     });
-    const firstUser: User = users[0];
-    const authenticated: boolean = authenticate(login, firstUser);
-    if (authenticated) return response.json(firstUser);
+    const userResponse: User = users[0];
+    const authenticated: boolean = authenticate(login, userResponse);
+    if (authenticated)
+        return response.json(userModel.getModelFromUser(userResponse));
     return response.status(401);
 };
 
@@ -36,7 +44,10 @@ export const getUsers = async (_request: Request, response: Response) => {
 
 export const updateUsers = async (request: Request, response: Response) => {
     const { id } = request.params;
-    const user: UpdateResult = await getRepository(User).update(id, request.body);
+    const user: UpdateResult = await getRepository(User).update(
+        id,
+        request.body
+    );
     if (user.affected === 1) {
         const updated = await getRepository(User).findOne(id);
         return response.json(updated);
@@ -60,11 +71,21 @@ const getNewUserFromBody = (body: any): User => {
     user.username = body.username;
     user.password = body.password;
     user.birth = body.birth;
-    user.account = new Account();
+    getRepository(Account)
+        .save(new Account())
+        .then((acc) => {
+            user.account = acc;
+        });
     return user;
 };
 
 const authenticate = (login: any, user: User) => {
-    if (user === undefined || login.username === undefined || login.password === undefined) return false;
+    if (
+        user === undefined ||
+        login.username === undefined ||
+        login.password === undefined
+    ) {
+        return false;
+    }
     return login.password === user.password;
 };
