@@ -4,8 +4,6 @@ import { Account } from '../entity/Account';
 import { Request, Response } from 'express';
 import { UserModel } from '../model/UserModel';
 
-const userModel: UserModel = new UserModel();
-
 export const login = async (request: Request, response: Response) => {
     const login = request.body;
     const username: string = login.username;
@@ -20,7 +18,7 @@ export const login = async (request: Request, response: Response) => {
     const userResponse: User = users[0];
     const authenticated: boolean = authenticate(login, userResponse);
     if (authenticated)
-        return response.json(userModel.getModelFromUser(userResponse));
+        return response.json(UserModel.getModelFromUser(userResponse));
     return response.status(401);
 };
 

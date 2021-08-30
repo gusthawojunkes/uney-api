@@ -3,7 +3,6 @@ import { AccountHistory } from '../entity/AccountHistory';
 import { Account } from '../entity/Account';
 import { Request, Response } from 'express';
 import { TransactionType } from '../entity/AccountHistory';
-import { copyFileSync } from 'fs';
 
 export const saveHistoric = async (request: Request, response: Response) => {
     const accId: number = request.body.accountId;
@@ -58,7 +57,6 @@ export const deleteHistoric = async (request: Request, response: Response) => {
     const accId: number = request.body.accountId;
     const account: Account = await getRepository(Account).findOne(accId);
     const historic = await getRepository(AccountHistory).findOne(id);
-    console.log(historic);
     cleanValuesFromAccount(account, historic);
     const register: DeleteResult = await getRepository(AccountHistory).delete(
         id

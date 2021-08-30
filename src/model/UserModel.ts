@@ -10,7 +10,7 @@ export class UserModel {
     total_input: number;
     total_output: number;
 
-    getModelFromUser(user: User) {
+    public static getModelFromUser(user: User): UserModel {
         const model = new UserModel();
         const account = user.account;
         model.name = user.name;
