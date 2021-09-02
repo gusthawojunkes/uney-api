@@ -3,22 +3,23 @@ import { User } from '../entity/User';
 import { Account } from '../entity/Account';
 import { Request, Response } from 'express';
 import { UserModel } from '../model/UserModel';
+import { Credential } from '../utils/Credential';
+import { Authenticator } from '../utils/Authenticator';
 
 export const login = async (request: Request, response: Response) => {
-    const login = request.body;
-    const username: string = login.username;
-    console.log(
-        `${new Date().toLocaleDateString()} - AUTHENTICATE >>> [${username} - ${
-            login.password
-        }]`
-    );
-    const users: Array<User> = await getRepository(User).find({
-        where: { username: username, password: login.password },
-    });
-    const userResponse: User = users[0];
-    const authenticated: boolean = authenticate(login, userResponse);
-    if (authenticated)
-        return response.json(UserModel.getModelFromUser(userResponse));
+    const credentials: Credential = new Credential(request.body);
+    let authenticated: boolean = false;
+    const user: User = null;
+    Authenticator.login(credentials)
+        .then((user) => {
+            user = user;
+        })
+        .catch((error) => console.error(error));
+
+    console.log(user);
+    authenticated = user !== null;
+
+    if (authenticated) return response.json(UserModel.getModelFromUser(user));
     return response.status(401);
 };
 
@@ -75,15 +76,4 @@ const getNewUserFromBody = (body: any): User => {
             user.account = acc;
         });
     return user;
-};
-
-const authenticate = (login: any, user: User) => {
-    if (
-        user === undefined ||
-        login.username === undefined ||
-        login.password === undefined
-    ) {
-        return false;
-    }
-    return login.password === user.password;
 };

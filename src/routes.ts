@@ -1,6 +1,18 @@
 import { Router } from 'express';
-import { saveUser, getUsers, updateUsers, deleteUser, login } from './controller/UserController';
-import { saveHistoric, getHistoric, updateHistoric, deleteHistoric, markAsFavorite } from './controller/AccountHistoryController';
+import {
+    saveUser,
+    getUsers,
+    updateUsers,
+    deleteUser,
+    login,
+} from './controller/UserController';
+import {
+    saveHistoric,
+    getHistoric,
+    updateHistoric,
+    deleteHistoric,
+    markAsFavorite,
+} from './controller/AccountHistoryController';
 import { getBalance } from './controller/AccountController';
 
 const routes = Router();
