@@ -12,8 +12,8 @@ export const saveHistoric = async (request: Request, response: Response) => {
         account
     );
 
-    const value: number = newHistoric.value;
-    const operation: TransactionType = newHistoric.operation;
+    const value: number = newHistoric.getValue();
+    const operation: TransactionType = newHistoric.getOperation();
 
     updateBalance(account, value, operation)
         .then(() => {
@@ -62,7 +62,7 @@ export const deleteHistoric = async (request: Request, response: Response) => {
         id
     );
     if (register.affected === 1) {
-        return response.json(account.balance);
+        return response.json(account.getBalance());
     }
     return response.status(404).json({ message: 'Register not found' });
 };
@@ -84,10 +84,10 @@ export const markAsFavorite = async (request: Request, response: Response) => {
 
 const getNewHistoricFromBody = (body: any, acc: Account): AccountHistory => {
     const historic = new AccountHistory();
-    historic.value = body.value;
-    historic.description = body.description;
-    historic.operation = body.operation;
-    historic.account = acc;
+    historic.setValue(body.value);
+    historic.setDescription(body.description);
+    historic.setOperation(body.operation);
+    historic.setAccount(acc);
     return historic;
 };
 
@@ -97,11 +97,11 @@ const updateBalance = async (
     type: TransactionType
 ) => {
     if (type === 'credit') {
-        account.balance += value;
-        account.total_input += value;
+        account.setBalance(account.getBalance() + value);
+        account.setTotalInput(account.getTotalInput() + value);
     } else if (type === 'debit') {
-        account.balance -= value;
-        account.total_output += value;
+        account.setBalance(account.getBalance() - value);
+        account.setTotalOutput(account.getTotalOutput() + value);
     }
     return await getRepository(Account).update(account.id, account);
 };
@@ -110,14 +110,14 @@ const cleanValuesFromAccount = async (
     account: Account,
     historic: AccountHistory
 ) => {
-    const type: TransactionType = historic.operation;
-    const value: number = historic.value;
+    const type: TransactionType = historic.getOperation();
+    const value: number = historic.getValue();
     if (type === 'credit') {
-        account.balance -= value;
-        account.total_input -= value;
+        account.setBalance(account.getBalance() - value);
+        account.setTotalInput(account.getTotalInput() - value);
     } else if (type === 'debit') {
-        account.balance += value;
-        account.total_output -= value;
+        account.setBalance(account.getBalance() + value);
+        account.setTotalOutput(account.getTotalOutput() - value);
     }
     return await getRepository(Account).update(account.id, account);
 };

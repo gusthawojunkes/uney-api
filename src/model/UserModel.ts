@@ -1,27 +1,77 @@
 import { User } from '../entity/User';
 
 export class UserModel {
-    name: string;
-    email: string;
-    username: string;
-    password: string;
-    birth: Date;
-    balance: number;
-    total_input: number;
-    total_output: number;
+    private name: string;
+    private email: string;
+    private username: string;
+    private password: string;
+    private birth: Date;
+    private balance: number;
+    private totalInput: number;
+    private totalOutput: number;
+
+    public getName(): string {
+        return this.name;
+    }
+    public getEmail(): string {
+        return this.email;
+    }
+    public getUsername(): string {
+        return this.username;
+    }
+    public getPassword(): string {
+        return this.password;
+    }
+    public getBirth(): Date {
+        return this.birth;
+    }
+    public getBalance(): number {
+        return this.balance;
+    }
+    public getTotalInput(): number {
+        return this.totalInput;
+    }
+    public gettotalOutput(): number {
+        return this.totalOutput;
+    }
+
+    public setName(name: string): void {
+        this.name = name;
+    }
+    public setEmail(email: string): void {
+        this.email = email;
+    }
+    public setUsername(username: string): void {
+        this.username = username;
+    }
+    public setPassword(password: string): void {
+        this.password = password;
+    }
+    public setBirth(birth: Date): void {
+        this.birth = birth;
+    }
+    public setBalance(balance: number): void {
+        this.balance = balance;
+    }
+    public setTotalInput(totalInput: number): void {
+        this.totalInput = totalInput;
+    }
+    public setTotalOutput(totalOutput: number): void {
+        this.totalOutput = totalOutput;
+    }
 
     public static getModelFromUser(user: User): UserModel {
         const model = new UserModel();
-        const account = user.account;
-        model.name = user.name;
-        model.email = user.email;
-        model.username = user.username;
-        model.password = user.password;
-        model.birth = user.birth;
+        const account = user.getAccount();
+        model.setName(user.getName());
+        model.setEmail(user.getEmail());
+        model.setUsername(user.getUsername());
+        model.setPassword(user.getPassword());
+        model.setBirth(user.getBirth());
         if (account !== undefined) {
-            model.balance = account.balance;
-            model.total_input = account.total_input;
-            model.total_output = account.total_output;
+            model.setBalance(account.getBalance());
+            model.setTotalInput(account.getTotalInput());
+            model.setTotalOutput(account.getTotalOutput());
         }
         return model;
     }

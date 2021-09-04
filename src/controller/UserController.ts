@@ -64,15 +64,15 @@ export const deleteUser = async (request: Request, response: Response) => {
 
 const getNewUserFromBody = (body: any): User => {
     const user = new User();
-    user.name = body.name;
-    user.email = body.email;
-    user.username = body.username;
-    user.password = body.password;
-    user.birth = body.birth;
+    user.setName(body.name);
+    user.setEmail(body.email);
+    user.setUsername(body.username);
+    user.setPassword(body.password);
+    user.setBirth(body.birth);
     getRepository(Account)
         .save(new Account())
         .then((acc) => {
-            user.account = acc;
+            user.setAccount(acc);
         });
     return user;
 };
@@ -85,5 +85,5 @@ const authenticate = (login: any, user: User) => {
     ) {
         return false;
     }
-    return login.password === user.password;
+    return login.password === user.getPassword();
 };

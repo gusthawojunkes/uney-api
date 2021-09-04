@@ -14,7 +14,7 @@ import { AccountTotals } from '../model/AccountTotals';
 export const getBalance = async (request: Request, response: Response) => {
     const { id } = request.params;
     const account = await getRepository(Account).findOne(id);
-    return response.json(account.balance);
+    return response.json(account.getBalance());
 };
 
 export const getTotals = async (request: Request, response: Response) => {
@@ -71,7 +71,7 @@ const setAccountTotals = async (
 ): Promise<AccountTotals> => {
     const accountRepository: Repository<Account> = getRepository(Account);
     const account: Account = await accountRepository.findOne(accountId);
-    totals.setTotalInput(account.total_input);
-    totals.setTotalOutput(account.total_output);
+    totals.setTotalInput(account.getTotalInput());
+    totals.setTotalOutput(account.getTotalOutput());
     return totals;
 };
