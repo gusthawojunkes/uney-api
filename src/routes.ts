@@ -1,7 +1,19 @@
 import { Router } from 'express';
-import { saveUser, getUsers, updateUsers, deleteUser, login } from './controller/UserController';
-import { saveHistoric, getHistoric, updateHistoric, deleteHistoric, markAsFavorite } from './controller/AccountHistoryController';
-import { getBalance } from './controller/AccountController';
+import {
+    saveUser,
+    getUsers,
+    updateUsers,
+    deleteUser,
+    login,
+} from './controller/UserController';
+import {
+    saveHistoric,
+    getHistoric,
+    updateHistoric,
+    deleteHistoric,
+    markAsFavorite,
+} from './controller/AccountHistoryController';
+import { getBalance, getTotals } from './controller/AccountController';
 
 const routes = Router();
 const USERS = '/users';
@@ -22,5 +34,6 @@ routes.delete(HISTORIC + '/:id', deleteHistoric);
 routes.patch(HISTORIC + '/favorite/:id', markAsFavorite);
 
 routes.get(ACCOUNT + '/:id/balance', getBalance);
+routes.get(ACCOUNT + '/:id/totals', getTotals);
 
 export default routes;
