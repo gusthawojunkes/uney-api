@@ -51,7 +51,7 @@ const calculateTotalToday = async (
         console.error(error);
     }
 
-    return totalToday;
+    return totalToday !== null ? totalToday : 0;
 };
 
 const setTotalsToday = async (
