@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import {
-    saveUser,
+    createNewUser,
     getUsers,
     updateUsers,
     deleteUser,
@@ -13,7 +13,7 @@ import {
     deleteHistoric,
     markAsFavorite,
 } from './controller/AccountHistoryController';
-import { getBalance } from './controller/AccountController';
+import { getBalance, getTotals } from './controller/AccountController';
 
 const routes = Router();
 const USERS = '/users';
@@ -22,7 +22,7 @@ const ACCOUNT = '/account';
 
 routes.post('/login', login);
 
-routes.post(USERS, saveUser);
+routes.post(USERS, createNewUser);
 routes.get(USERS, getUsers);
 routes.put(USERS + '/:id', updateUsers);
 routes.delete(USERS + '/:id', deleteUser);
@@ -34,5 +34,6 @@ routes.delete(HISTORIC + '/:id', deleteHistoric);
 routes.patch(HISTORIC + '/favorite/:id', markAsFavorite);
 
 routes.get(ACCOUNT + '/:id/balance', getBalance);
+routes.get(ACCOUNT + '/:id/totals', getTotals);
 
 export default routes;

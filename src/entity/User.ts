@@ -9,36 +9,86 @@ export class User extends AbstractEntity {
         type: 'varchar',
         length: 80,
     })
-    name: string;
+    private name: string;
 
     @Column({
         type: 'varchar',
         length: 150,
         nullable: true,
     })
-    email: string;
+    private email: string;
 
     @Column({
         name: 'username',
         type: 'varchar',
         length: 150,
     })
-    username: string;
+    private username: string;
 
     @Column({
         name: 'password',
         type: 'varchar',
         length: 150,
     })
-    password: string;
+    private password: string;
 
     @Column({
         type: 'date',
         nullable: true,
     })
-    birth: Date;
+    private birth: Date;
 
-    @OneToOne(() => Account, (account) => account.user, { cascade: ['insert'] })
+    @OneToOne(() => Account, (account) => account.getUser, {
+        cascade: ['insert'],
+    })
     @JoinColumn()
-    account: Account;
+    private account: Account;
+
+    public getName(): string {
+        return this.name;
+    }
+
+    public setName(name: string): void {
+        this.name = name;
+    }
+
+    public getEmail(): string {
+        return this.email;
+    }
+
+    public setEmail(email: string): void {
+        this.email = email;
+    }
+
+    public getUsername(): string {
+        return this.username;
+    }
+
+    public setUsername(username: string): void {
+        this.username = username;
+    }
+
+    public getPassword(): string {
+        return this.password;
+    }
+
+    public setPassword(password: string): void {
+        this.password = password;
+    }
+
+    public getBirth(): Date {
+        return this.birth;
+    }
+
+    public setBirth(birth: Date): void {
+        this.birth = birth;
+    }
+
+    public getAccount(): Account {
+        return this.account;
+    }
+
+    public setAccount(account: Account): void {
+        this.account = account;
+    }
 }
