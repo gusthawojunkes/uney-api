@@ -3,6 +3,7 @@ import { User } from '../entity/User';
 import { Account } from '../entity/Account';
 import { Request, Response } from 'express';
 import { UserModel } from '../model/UserModel';
+import { createNewAccount } from './AccountController';
 
 export const login = async (request: Request, response: Response) => {
     const login = request.body;
@@ -22,12 +23,15 @@ export const login = async (request: Request, response: Response) => {
     return response.status(401);
 };
 
-export const saveUser = async (request: Request, response: Response) => {
-    const user = getNewUserFromBody(request.body);
+export const createNewUser = async (request: Request, response: Response) => {
+    const user = await getNewUserFromBody(request.body);
+
+    const userRepository = getRepository(User);
     let newUser: User;
-    await getRepository(User)
+
+    await userRepository
         .save(user)
-        .then((u) => (newUser = u))
+        .then((persistedUser) => (newUser = persistedUser))
         .catch((err) => {
             return response.json(err.message);
         });
@@ -62,18 +66,17 @@ export const deleteUser = async (request: Request, response: Response) => {
     return response.status(404).json({ message: 'User not found' });
 };
 
-const getNewUserFromBody = (body: any): User => {
+const getNewUserFromBody = async (body: any): Promise<User> => {
     const user = new User();
+    const newAccount: Account = await createNewAccount();
+
     user.setName(body.name);
     user.setEmail(body.email);
     user.setUsername(body.username);
     user.setPassword(body.password);
     user.setBirth(body.birth);
-    getRepository(Account)
-        .save(new Account())
-        .then((acc) => {
-            user.setAccount(acc);
-        });
+    user.setAccount(newAccount);
+
     return user;
 };
 

@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import {
-    saveUser,
+    createNewUser,
     getUsers,
     updateUsers,
     deleteUser,
@@ -22,7 +22,7 @@ const ACCOUNT = '/account';
 
 routes.post('/login', login);
 
-routes.post(USERS, saveUser);
+routes.post(USERS, createNewUser);
 routes.get(USERS, getUsers);
 routes.put(USERS + '/:id', updateUsers);
 routes.delete(USERS + '/:id', deleteUser);

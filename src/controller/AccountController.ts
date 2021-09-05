@@ -27,6 +27,21 @@ export const getTotals = async (request: Request, response: Response) => {
     return response.json(totals);
 };
 
+export const createNewAccount = async (): Promise<Account> => {
+    const accountRepository: Repository<Account> = getRepository(Account);
+    let account: Account;
+    await accountRepository
+        .save(new Account())
+        .then((newAccount: Account) => {
+            account = newAccount;
+        })
+        .catch((error: Error) => {
+            throw new Error(error.message);
+        });
+
+    return account;
+};
+
 const calculateTotalToday = async (
     type: TransactionType,
     accountId: number

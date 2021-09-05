@@ -103,7 +103,7 @@ const updateBalance = async (
         account.setBalance(account.getBalance() - value);
         account.setTotalOutput(account.getTotalOutput() + value);
     }
-    return await getRepository(Account).update(account.id, account);
+    return await getRepository(Account).update(account.getId(), account);
 };
 
 const cleanValuesFromAccount = async (
@@ -119,5 +119,5 @@ const cleanValuesFromAccount = async (
         account.setBalance(account.getBalance() + value);
         account.setTotalOutput(account.getTotalOutput() - value);
     }
-    return await getRepository(Account).update(account.id, account);
+    return await getRepository(Account).update(account.getId(), account);
 };
