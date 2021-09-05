@@ -10,14 +10,8 @@ import { createNewAccount } from './AccountController';
 export const login = async (request: Request, response: Response) => {
     const credentials: Credential = new Credential(request.body);
     let authenticated: boolean = false;
-    const user: User = null;
-    Authenticator.login(credentials)
-        .then((user) => {
-            user = user;
-        })
-        .catch((error) => console.error(error));
+    const user: User = await Authenticator.login(credentials);
 
-    console.log(user);
     authenticated = user !== null;
 
     if (authenticated) return response.json(UserModel.getModelFromUser(user));

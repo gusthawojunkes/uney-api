@@ -8,10 +8,10 @@ export abstract class AbstractEntity {
     @PrimaryGeneratedColumn()
     private id: number;
 
-    @CreateDateColumn()
+    @CreateDateColumn({ type: 'timestamptz' })
     private createdAt: Date;
 
-    @UpdateDateColumn()
+    @UpdateDateColumn({ type: 'timestamptz' })
     private updatedAt: Date;
 
     public getId(): number {

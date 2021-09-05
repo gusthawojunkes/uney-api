@@ -58,7 +58,7 @@ const calculateTotalToday = async (
                 .andWhere('historic.accountId = :accountId', {
                     accountId: accountId,
                 })
-                .andWhere('historic.created_at::DATE = CURRENT_DATE');
+                .andWhere('"historic"."createdAt"::DATE = CURRENT_DATE');
 
         const { total } = await totalTodayQuery.getRawOne();
         totalToday = total;
