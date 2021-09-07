@@ -33,7 +33,7 @@ export const getHistoric = async (_request: Request, response: Response) => {
         AccountHistory
     ).find({
         order: {
-            created_at: 'DESC',
+            createdAt: 'DESC',
         },
     });
     return response.json(historic);

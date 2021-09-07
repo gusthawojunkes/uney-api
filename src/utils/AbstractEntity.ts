@@ -6,13 +6,13 @@ import {
 
 export abstract class AbstractEntity {
     @PrimaryGeneratedColumn()
-    private id: number;
+    protected id: number;
 
     @CreateDateColumn({ type: 'timestamptz' })
-    private createdAt: Date;
+    protected createdAt: Date;
 
     @UpdateDateColumn({ type: 'timestamptz' })
-    private updatedAt: Date;
+    protected updatedAt: Date;
 
     public getId(): number {
         return this.id;
