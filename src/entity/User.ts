@@ -1,5 +1,5 @@
 import { Entity, Column, OneToOne, JoinColumn, Unique } from 'typeorm';
-import { AbstractEntity } from '../utils/AbstractEntity';
+import AbstractEntity from '../utils/AbstractEntity';
 import { Account } from './Account';
 
 @Entity()

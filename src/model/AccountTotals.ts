@@ -1,4 +1,4 @@
-export class AccountTotals {
+export default class AccountTotals {
     private totalInput: number = 0;
     private totalOutput: number = 0;
     private totalInputToday: number = 0;

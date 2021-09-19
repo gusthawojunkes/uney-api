@@ -2,9 +2,9 @@ import { DeleteResult, getRepository, UpdateResult } from 'typeorm';
 import { User } from '../entity/User';
 import { Account } from '../entity/Account';
 import { Request, Response } from 'express';
-import { UserModel } from '../model/UserModel';
-import { Credential } from '../utils/Credential';
-import { Authenticator } from '../utils/Authenticator';
+import UserModel from '../model/UserModel';
+import Credential from '../utils/Credential';
+import Authenticator from '../utils/Authenticator';
 import { createNewAccount } from './AccountController';
 
 export const login = async (request: Request, response: Response) => {

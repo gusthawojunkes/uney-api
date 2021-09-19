@@ -1,8 +1,9 @@
-import { Credential } from './Credential';
+import Credential from './Credential';
+import DateUtils from './DateUtils';
 import { User } from '../entity/User';
 import { getConnection, Connection, SelectQueryBuilder } from 'typeorm';
 
-export class Authenticator {
+export default class Authenticator {
     public static login = async (login: Credential): Promise<User> => {
         const username = login.getUsername();
         const password = login.getPassword();
@@ -25,13 +26,13 @@ export class Authenticator {
 
 const logCredentials = (user: string, pass: string) => {
     console.log(
-        `${new Date().toLocaleDateString()} - AUTHENTICATING >>> [${user} - ${pass}]`
+        `${DateUtils.formatNow()} - AUTHENTICATING >>> [${user} - ${pass}]`
     );
 };
 
 const logUser = (user: User) => {
     console.log(
-        `${new Date().toLocaleDateString()} - FOUND USER >>> [${user.getName()}]`
+        `${DateUtils.formatNow()} - FOUND USER >>> [${user.getName()}]`
     );
 };
 

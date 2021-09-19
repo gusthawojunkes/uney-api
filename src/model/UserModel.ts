@@ -1,6 +1,6 @@
 import { User } from '../entity/User';
 
-export class UserModel {
+export default class UserModel {
     private name: string;
     private email: string;
     private username: string;

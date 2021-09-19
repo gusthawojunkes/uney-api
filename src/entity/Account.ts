@@ -1,5 +1,5 @@
 import { Entity, Column, OneToMany, OneToOne } from 'typeorm';
-import { AbstractEntity } from '../utils/AbstractEntity';
+import AbstractEntity from '../utils/AbstractEntity';
 import { AccountHistory } from './AccountHistory';
 import { User } from './User';
 

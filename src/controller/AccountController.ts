@@ -9,7 +9,7 @@ import { Account } from '../entity/Account';
 import { Request, Response } from 'express';
 import { AccountHistory } from '../entity/AccountHistory';
 import { TransactionType } from '../entity/AccountHistory';
-import { AccountTotals } from '../model/AccountTotals';
+import AccountTotals from '../model/AccountTotals';
 
 export const getBalance = async (request: Request, response: Response) => {
     const { id } = request.params;

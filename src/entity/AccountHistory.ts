@@ -1,5 +1,5 @@
 import { Entity, Column, ManyToOne } from 'typeorm';
-import { AbstractEntity } from '../utils/AbstractEntity';
+import AbstractEntity from '../utils/AbstractEntity';
 import { Account } from './Account';
 
 export type TransactionType = 'debit' | 'credit';
