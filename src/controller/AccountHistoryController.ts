@@ -21,9 +21,13 @@ export const saveHistoric = async (request: Request, response: Response) => {
                 .save(newHistoric)
                 .then((historic) => {
                     return response.json(historic);
+                }).catch((error) => {
+                    console.log(error);
+                    response.status(500).send({ error: error.message });
                 });
         })
         .catch((err) => {
+            console.log(err);
             return response.status(500).send({ error: err.message });
         });
 };
